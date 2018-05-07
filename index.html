@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="foundation.css">
+    <link rel="stylesheet" href="navigation_tabs.css">
+    <link rel="stylesheet" href="image_list.css">
+    <link rel="stylesheet" href="styles.css">
+
+<script>window.$ = window.jQuery = require('./jquery.min.js');</script>
+<script>window.registry = require('./registry.js');</script>
+</head>
+<body>
+    <div class="sidebar">Containers:</div>
+    <div class="content-pane">
+        <main>
+  
+            <input id="tab1" type="radio" name="tabs" checked>
+            <label for="tab1">Local Images</label>
+
+            <input id="tab2" type="radio" name="tabs">
+            <label for="tab2">ECR Images</label>
+
+            <input id="tab3" type="radio" name="tabs">
+            <label for="tab3">Settings</label>
+
+            <section id="content1">
+                <form>
+                    <div class="row">
+                        <div class="medium-12 columns">
+                            <h1>Sprite Animation Generator</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-12 columns">
+                            <label>
+                                Animation
+                                <span class="input-group">
+                                    <input class="input-group-field" type="text" name="source" placeholder="/path/to/your/image/sequence">
+                                    <span class="input-group-button">
+                                        <button class="button" type="button" id="chooseSource">Choose Directory</button>
+                                    </span>
+                                </span>
+                            </label>
+                            <label>
+                                Destination
+                                <span class="input-group">
+                                    <input class="input-group-field" type="text" name="destination" placeholder="/path/to/your/generated/files">
+                                    <span class="input-group-button">
+                                        <button class="button" type="button" id="chooseDestination">Choose Directory</button>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label>
+                                Name
+                                <input type="text" name="name" placeholder="animation">
+                            </label>
+                        </div>
+                        <div class="medium-6 columns">
+                            <label>
+                                FPS
+                                <input type="number" min="12" max="48" name="fps" placeholder="30">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-12 columns">
+                            <button class="large expanded button" type="submit">Apply</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="content2">
+                <form id="ecr_refresh">
+                    <input class="input-group-field" type="text" name="ecr_img_filter" placeholder="e.g. data_science/">
+                    <button class="large expanded button" type="submit">Refresh ECR Image List</button>
+                    <div id="ecr_image_list"></div>
+                </form>
+            </section>
+            <section id="content3">Goodbye</section>
+        </main>
+    </div>
+</body>
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+</script>
+</html>

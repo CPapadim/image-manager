@@ -1,0 +1,134 @@
+.selectbox {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.selectbox__selected {
+  width: 100%;
+  height: 200px;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+.selectbox__values {
+  position: absolute;
+  top: 200px;
+  width:100%;
+  display: none;
+  text-align: center;
+}
+
+.selectbox__item {
+  padding: 5px;
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+  border-bottom:1px solid white;
+}
+
+.selectbox__item:hover {
+  background-color:#2ad666;
+
+}
+
+.repository {
+  background-color:#ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  margin-bottom:10px;
+}
+
+.repository:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.repository-name {
+  background-color:#1ccc59;
+  display:block;
+  width:100%;
+  color:#555;
+  padding-top:10px;
+  padding-bottom:10px;
+  margin-bottom:5px;
+  font-weight:bold;
+  font-size:16px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.image-tags {
+  display:inline-block;
+  text-align:left;
+  height:68px;
+  overflow:scroll;
+  width:100%;
+
+}
+
+.image-digest {
+  font-family: courier;
+  font-size: 11px;
+  color: #999999;
+  text-align:right;
+}
+
+.image-pushed-at {
+  font-family: courier;
+  font-size: 11px;
+  color: #999999;
+  text-align:right;
+  padding-bottom:5px;
+}
+.selectbox__values {
+  z-index:1000;
+  background-color:#1ccc59;
+}
+
+.image-tag {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size:12px;
+    font-weight:bold;
+    background: #1ccc59;
+    display: inline-block;
+    color: #fff;
+    position: relative;
+    padding: 5px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    margin: 5px 30px 0 0;
+    text-decoration: none;
+}
+ 
+.image-tag:hover {
+    background-color: #739fe4;
+}
+ 
+.image-tag:before {
+    background: #fff;
+    width: 10px;
+    height: 10px;
+    content: "";
+    display: inline-block;
+    border-radius: 20px;
+    margin: 0 5px 0 0;
+}
+ 
+.image-tag:after {
+    display: inline-block;
+    border: 11px solid;
+    border-color: transparent transparent transparent #1ccc59;
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: -22px;
+    top: 0;
+    content: "";
+    display: inline-block;
+}
+ 
+ 
+.image-tag:hover:after {
+    border-color: transparent transparent transparent #739fe4;
+}
+

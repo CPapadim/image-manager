@@ -1,0 +1,20 @@
+body {
+    cursor: default;
+}
+
+.sidebar {
+  background: #06c;
+  color: white;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 10px;
+  position: fixed;
+  width: 250px;
+}
+.content-pane {
+  background: #EEE;
+  float: left;
+  margin-left: 250px;
+  padding: 10px;
+}
