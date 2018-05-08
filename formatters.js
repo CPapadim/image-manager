@@ -1,7 +1,5 @@
-var registry = require('./registry.js')
-
-
-
+var registry = require('./registry.js');
+var local = require('./local.js');
 
 
 function repoFormatter(repo_data, repo_idx) {
@@ -82,10 +80,6 @@ function repoFormatter(repo_data, repo_idx) {
 }
 
 
-
-
-
-
 function showRepos(filter){
 
 	var repos = registry.getReposAndImages(filter);
@@ -98,5 +92,21 @@ function showRepos(filter){
 }
 
 
+
+
+async function showContainers() {
+	var containers = await local.getContainerList();
+	//console.log(containers);
+	return containers;
+	//local.getContainerList().then(function(containers) {
+	//	// CALL FORMATTER HERE
+	//	var container_html = containers;
+	//	return container_html;
+	//});
+
+}
+
+
 // Exports
 module.exports.showRepos = showRepos;
+module.exports.showContainers = showContainers;

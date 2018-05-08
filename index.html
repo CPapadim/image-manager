@@ -11,7 +11,12 @@
 <script>window.registry = require('./registry.js');</script>
 </head>
 <body>
-    <div class="sidebar">Containers:</div>
+    <div class="sidebar">Containers:
+        <form id="containers">
+            <button class="large expanded button" type="submit">Refresh Containers</button>
+            <div id="container_list"></div>
+        </form>
+    </div>
     <div class="content-pane">
         <main>
   

@@ -1,4 +1,5 @@
 var formatters = require("./formatters.js");
+var dockerode  = require('dockerode');
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 //const generator = "hi"//require('animation-strip-generator');
@@ -22,8 +23,8 @@ function createWindow() {
     });
 }
 
-function handleSubmission() {
-    ipcMain.on('did-submit-form', (event, argument) => {
+function refreshECRImages() {
+    ipcMain.on('did-submit-ecr-form', (event, argument) => {
         const { ecr_img_filter } = argument;
         var image_html = formatters.showRepos(ecr_img_filter);
         event.sender.send('showEcrImageList', image_html);
@@ -31,12 +32,25 @@ function handleSubmission() {
     });
 }
 
+function refreshContainers() {
+    ipcMain.on('did-submit-container-form', (event) => {
+        var container_html;
+        formatters.showContainers().then(function(result) { 
+                                        container_html = result;
+                                        //console.log(container_html);
+                                        event.sender.send('showContainerList', container_html);
+                                    });
+    });
+
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
     createWindow();
-    handleSubmission();
+    refreshECRImages();
+    refreshContainers();
 });
 
 app.on('window-all-closed', () => {

@@ -61,7 +61,7 @@ buttons.destination.addEventListener('click', () => {
 
 document.getElementById('ecr_refresh').addEventListener('submit', (event) => {
     event.preventDefault();
-    ipcRenderer.send('did-submit-form', {
+    ipcRenderer.send('did-submit-ecr-form', {
         ecr_img_filter: inputs.ecr_img_filter.value,
     });
 });
@@ -69,3 +69,17 @@ document.getElementById('ecr_refresh').addEventListener('submit', (event) => {
 ipcRenderer.on('showEcrImageList', function (event, image_html) {
     jQuery('#ecr_image_list').html(image_html);
 });
+
+
+document.getElementById('containers').addEventListener('submit', (event) => {
+    event.preventDefault();
+    ipcRenderer.send('did-submit-container-form', {
+        //ecr_img_filter: inputs.ecr_img_filter.value,
+    });
+});
+
+ipcRenderer.on('showContainerList', function (event, container_html) {
+    jQuery('#container_list').html(container_html);
+});
+
+

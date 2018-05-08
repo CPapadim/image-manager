@@ -8,6 +8,9 @@
     "build": "electron-packager ./ --platform=darwin,win32 --arch=x64 --prune --overwrite"
   },
   "author": "Charalampos Papadimitriou",
+  "dependencies": {
+    "dockerode": "^2.5.5"
+  },
   "devDependencies": {
     "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.2.0",
