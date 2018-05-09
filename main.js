@@ -37,7 +37,6 @@ function refreshContainers() {
         var container_html;
         formatters.showContainers().then(function(result) { 
                                         container_html = result;
-                                        //console.log(container_html);
                                         event.sender.send('showContainerList', container_html);
                                     });
     });

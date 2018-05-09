@@ -92,18 +92,73 @@ function showRepos(filter){
 }
 
 
+async function containerFormatter(container_data, container_idx) {
+
+
+	/* Available Container Data To Expose
+	[ 'Id',
+	  'Names',
+	  'Image',
+	  'ImageID',
+	  'Command',
+	  'Created',
+	  'Ports',
+	  'Labels',
+	  'State',
+	  'Status',
+	  'HostConfig',
+	  'NetworkSettings',
+	  'Mounts' ]
+	 */
+	var ports_template = '';
+	ports_template += '<div class = "image-ports">';
+	if (container_data["Ports"]) {
+		for (port of container_data["Ports"]) {
+			ports_template += '<div class = "image-port">' + port["PrivatePort"] + ":" + port["PublicPort"] + ":" + port["Type"] + '</div>';
+		}
+	}
+	ports_template += '</div>';
+
+	var template = '<div class = "container container-' + container_idx + '">';
+	template += '<div class="containerName">' + container_data["Names"] + '</div>';
+	template += '<div class="containerImageName">' + container_data["Image"] + '</div>';
+	template += '<div class="containerImageId">' + container_data["ImageId"] + '</div>';
+	template += ports_template;
+	template += '<div class="container-state">' + container_data["State"] + '</div>';
+	template += '<div class="container-status">' + container_data["Status"] + '</div>';
+	template += '</div>';
+
+	await local.getImageData(container_data["Image"]).then(function(image) {
+				var tags_template = '<div class = "image-tags">';
+				var seen_tags = [];
+				if (image["RepoTags"]) {
+					for (tag of image["RepoTags"]) {
+						tag = tag.split(":");
+						tag = tag[tag.length-1];
+						if (!seen_tags.includes(tag)) {
+							seen_tags.push(tag);
+							tags_template += '<div class = "image-tag">' + tag.split(":") + '</div>';
+						}
+
+					}
+				}
+				tags_template += '</div>';
+				template += tags_template;
+			});
+
+	return await template;
+
+}
+
 
 
 async function showContainers() {
+	var display_html = '';
 	var containers = await local.getContainerList();
-	//console.log(containers);
-	return containers;
-	//local.getContainerList().then(function(containers) {
-	//	// CALL FORMATTER HERE
-	//	var container_html = containers;
-	//	return container_html;
-	//});
-
+	for (let [index, container] of containers.entries()) {
+		await containerFormatter(container, index).then(function(result) {display_html += result});
+	}
+	return await display_html;	
 }
 
 
