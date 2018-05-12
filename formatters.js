@@ -110,26 +110,44 @@ async function containerFormatter(container_data, container_idx) {
 	  'NetworkSettings',
 	  'Mounts' ]
 	 */
+
+
+	var template = '<div class = "container container-' + container_idx + '">';
+	template += '<div class="containerName">' + container_data["Names"] + '</div>';
+	template += '<div class="containerImageName"><span class="containerImageName-text">' + container_data["Image"] + '</span></div>';
+	
+	template += '<div class="containerState">';
+	if (container_data["State"]=='running') {
+		template += '<span class="container-state container_state_running" title="' + container_data["State"] + '""></span>';
+	} else if (container_data["State"]=='exited') {
+		template += '<span class="container-state container_state_exited" title="' + container_data["State"] + '""></span>';
+	} else {
+		template += '<span class="container-state container_state_other" title="' + container_data["State"] + '""></span>';
+	}
+	template += '</div>';
+	template += '<div class="containerStatus">' + container_data["Status"] + '</div>';
+
+	template += `
+				<details class="more_info">
+				<summary class="more_info_label">More Info</summary>
+				`;
+
+
+	template += '<div class="containerImageId"><div class = "image-id-title mi_subsection_title">ID</div>';
+	template += '<div class="image-id">' + container_data["ImageID"] + '</div></div>';
+
 	var ports_template = '';
-	ports_template += '<div class = "image-ports">';
+	ports_template += '<div class = "image-ports"><div class = "image-ports-title mi_subsection_title">Ports</div>';
 	if (container_data["Ports"]) {
 		for (port of container_data["Ports"]) {
 			ports_template += '<div class = "image-port">' + port["PrivatePort"] + ":" + port["PublicPort"] + ":" + port["Type"] + '</div>';
 		}
 	}
 	ports_template += '</div>';
-
-	var template = '<div class = "container container-' + container_idx + '">';
-	template += '<div class="containerName">' + container_data["Names"] + '</div>';
-	template += '<div class="containerImageName">' + container_data["Image"] + '</div>';
-	template += '<div class="containerImageId">' + container_data["ImageId"] + '</div>';
 	template += ports_template;
-	template += '<div class="container-state">' + container_data["State"] + '</div>';
-	template += '<div class="container-status">' + container_data["Status"] + '</div>';
-	template += '</div>';
 
 	await local.getImageData(container_data["Image"]).then(function(image) {
-				var tags_template = '<div class = "image-tags">';
+				var tags_template = '<div class = "image-tags"><div class = "image-tags-title mi_subsection_title">Tags</div>';
 				var seen_tags = [];
 				if (image["RepoTags"]) {
 					for (tag of image["RepoTags"]) {
@@ -137,7 +155,7 @@ async function containerFormatter(container_data, container_idx) {
 						tag = tag[tag.length-1];
 						if (!seen_tags.includes(tag)) {
 							seen_tags.push(tag);
-							tags_template += '<div class = "image-tag">' + tag.split(":") + '</div>';
+							tags_template += '<div class = "image-tag"><span class ="image-tag-text">' + tag.split(":") + '</div>';
 						}
 
 					}
@@ -145,6 +163,18 @@ async function containerFormatter(container_data, container_idx) {
 				tags_template += '</div>';
 				template += tags_template;
 			});
+	template += '</details>';
+
+
+	template += `
+				<div class="containerButtons">
+					<div class="containerStartButton">Start</div>
+					<div class="containerStopButton">Stop</div>
+					<div class="containerDeleteButton">DELETE</div>
+				</div>
+				`;
+
+	template += '</div>';
 
 	return await template;
 

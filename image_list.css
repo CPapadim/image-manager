@@ -60,9 +60,10 @@
 .image-tags {
   display:inline-block;
   text-align:left;
-  height:68px;
-  overflow:scroll;
+  height:auto;
   width:100%;
+  overflow:visible;
+  margin-bottom:10px;
 
 }
 
@@ -85,11 +86,82 @@
   background-color:#1ccc59;
 }
 
+
+
+
+/* Container List */
+
+form#containers {
+  height:100%;
+  padding-bottom:100px;
+}
+#container_list {
+  overflow-y:scroll;
+  height:100%;
+}
+.container {
+  background-color:#68799b;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.65);
+  transition: 0.3s;
+  /*border-bottom:3px solid white;*/
+  border-top:5px solid white;
+  border-top-left-radius:3px;
+  border-top-right-radius:3px;
+  margin-bottom:20px;
+  overflow:visible;
+}
+
+.containerState, .containerStatus {
+  display:inline-block;
+}
+.containerName, .image-ports, .image-tags, .containerImageName, .containerImageId, 
+.containerState, .containerStatus {
+  padding-left:5px;
+  padding-right:5px;
+}
+
+.containerName {
+  padding-top:5px;
+  padding-bottom:5px;
+  background-color:white;
+  color:black;
+  font-weight:bold;
+  text-align:center;
+}
+
+
+.containerImageName {
+  margin-top:10px;
+  margin-bottom:10px;
+  overflow:visible;
+  text-overflow:ellipsis;
+  background-color:#68799b;
+}
+
+.containerImageName:hover {
+  background-color:#68799b;
+  max-width:2000px;
+}
+
+.containerImageName-text {
+  width:auto;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  display:inline-block;
+  max-width:220px;
+  background-color:#68799b;
+}
+.containerImageName-text:hover {
+  max-width:2000px;
+}
+
+
 .image-tag {
     font-family: Helvetica, Arial, sans-serif;
     font-size:12px;
     font-weight:bold;
-    background: #1ccc59;
+    background-color: #739fe4;
     display: inline-block;
     color: #fff;
     position: relative;
@@ -98,10 +170,12 @@
     border-bottom-left-radius: 2px;
     margin: 5px 30px 0 0;
     text-decoration: none;
+    height:22px;
+    white-space:nowrap;
 }
  
 .image-tag:hover {
-    background-color: #739fe4;
+    max-width:2000px;
 }
  
 .image-tag:before {
@@ -117,7 +191,7 @@
 .image-tag:after {
     display: inline-block;
     border: 11px solid;
-    border-color: transparent transparent transparent #1ccc59;
+    border-color: transparent transparent transparent #739fe4;
     height: 0;
     width: 0;
     position: absolute;
@@ -127,8 +201,109 @@
     display: inline-block;
 }
  
- 
-.image-tag:hover:after {
-    border-color: transparent transparent transparent #739fe4;
+
+.image-tag-text {
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    display:inline-block;
+    max-width:170px;
+}
+
+.image-tag-text:hover {
+  max-width:2000px;
+}
+
+
+.more_info_label {
+  display: block;
+
+  color: #A77B0E;
+  background: #FAE042;
+
+  cursor: pointer;
+
+  border-radius: 1px;
+  transition: all 0.25s ease-out;
+
+  background-color:#56656f;
+  color:#ffffff;
+  margin:10px 0px !important;
+  width:100%;
+  padding-left:7px;
+  padding-top:5px;
+  padding-bottom:5px;
+  user-select:none;
+}
+
+.more_info_label:focus {
+  outline:none;
+}
+
+.mi_subsection_title {
+  border-bottom:1px solid white;
+  margin-top:15px;
+  padding-bottom:3px;
+  margin-bottom:10px;
+}
+
+
+.container-state {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.container_state_running {
+  background-color: #00ff00;
+}
+
+.container_state_exited {
+  background-color: #ff0000;
+}
+
+.container_state_other {
+  background-color: #dddddd;
+}
+
+.image-id {
+  word-wrap:break-word;
+  word-break:break-all;
+}
+
+.containerButtons {
+  border-bottom: 1px solid #56656f;
+  border-top:3px solid white;
+  display:flex;
+
+
+}
+
+.containerStartButton {
+  border-right: 1px solid #56656f;
+  border-top: 1px solid #56656f;
+  background-color:#88d288;
+  font-weight:bold;
+}
+
+.containerStopButton {
+  border-top: 1px solid #56656f;
+  border-right: 1px solid #56656f;
+  background-color:#dc8181;
+  font-weight:bold;
+}
+.containerStartButton, .containerStopButton, .containerDeleteButton {
+  display:inline-block;
+  padding-right:10px;
+  padding-left:10px;
+  padding-bottom: 5px;
+  padding-top:5px;
+  color:#272727;
+}
+
+.containerDeleteButton {
+  margin-left:52px;
+  border-left:1px solid #56656f;
+  background-color:#ffffff;
 }
 

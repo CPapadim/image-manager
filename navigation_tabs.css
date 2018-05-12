@@ -45,7 +45,7 @@ input {
   display: none;
 }
 
-label {
+label.nav_tab {
   display: inline-block;
   margin: 0 0 -1px;
   padding: 15px 25px;
@@ -55,34 +55,34 @@ label {
   border: 1px solid transparent;
 }
 
-label:before {
+label.nav_tab:before {
   font-family: fontawesome;
   font-weight: normal;
   margin-right: 10px;
 }
 
-label[for*='1']:before {
+label.nav_tab[for*='1']:before {
   content: '\f1cb';
 }
 
-label[for*='2']:before {
+label.nav_tab[for*='2']:before {
   content: '\f17d';
 }
 
-label[for*='3']:before {
+label.nav_tab[for*='3']:before {
   content: '\f16b';
 }
 
-label[for*='4']:before {
+label.nav_tab[for*='4']:before {
   content: '\f1a9';
 }
 
-label:hover {
+label.nav_tab:hover {
   color: #888;
   cursor: pointer;
 }
 
-input:checked + label {
+input:checked + label.nav_tab {
   color: #555;
   border: 1px solid #ddd;
   border-top: 2px solid orange;
@@ -97,17 +97,17 @@ input:checked + label {
 }
 
 @media screen and (max-width: 650px) {
-  label {
+  label.nav_tab {
     font-size: 0;
   }
 
-  label:before {
+  label.nav_tab:before {
     margin: 0;
     font-size: 18px;
   }
 }
 @media screen and (max-width: 400px) {
-  label {
+  label.nav_tab {
     padding: 15px;
   }
 }
