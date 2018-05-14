@@ -32,6 +32,18 @@ function refreshECRImages() {
     });
 }
 
+function refreshLocalImages() {
+    ipcMain.on('did-submit-local-form', (event, argument) => {
+        const { local_img_filter } = argument;
+        var image_html;
+        formatters.showLocalImages(local_img_filter).then(function(result) { 
+                                                        image_html = result;
+                                                        event.sender.send('showLocalImageList', image_html);
+                                                    });;
+
+    });
+}
+
 function refreshContainers() {
     ipcMain.on('did-submit-container-form', (event) => {
         var container_html;
@@ -48,6 +60,7 @@ function refreshContainers() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
     createWindow();
+    refreshLocalImages();
     refreshECRImages();
     refreshContainers();
 });

@@ -4,6 +4,7 @@ var local = require('./local.js');
 
 function repoFormatter(repo_data, repo_idx) {
 
+	// Format ECR image repo display
 	var template = '<div class = "repository selectbox selectbox-' + repo_idx + '">';
 
 	for (let [index, image] of repo_data["imageDetails"].entries()) {
@@ -49,18 +50,18 @@ function repoFormatter(repo_data, repo_idx) {
 	// Move this to a general function rather than having a separate script per repository in the list
 	template += `
 		<script>
-
-		jQuery(document).on('click', '.selectbox__selected-${repo_idx} > .image-pull', function() {
+		// calling .off so we don't re-register events when images refresh
+		jQuery(document).off('click', '.selectbox__selected-${repo_idx} > .image-pull').on('click', '.selectbox__selected-${repo_idx} > .image-pull', function() {
 			var digest = jQuery('.selectbox__selected-${repo_idx}').attr('image-digest');
 			var repository = jQuery('.selectbox__selected-${repo_idx} > .repository-name').text();
 			registry.pullImage(repository, digest);
 		});
 
-		jQuery(document).on('click', '.selectbox__selected-${repo_idx} > .repository-name', function() {
+		jQuery(document).off('click', '.selectbox__selected-${repo_idx} > .repository-name').on('click', '.selectbox__selected-${repo_idx} > .repository-name', function() {
     		jQuery('.selectbox__values-${repo_idx}').toggle();
 		});
 			
-		jQuery(document).on('click', '.selectbox__item-${repo_idx}', function() {
+		jQuery(document).off('click', '.selectbox__item-${repo_idx}').on('click', '.selectbox__item-${repo_idx}', function() {
 		  var value = $(this).html();
 		  var digest = $(this).attr('image-digest');
 		  
@@ -91,6 +92,42 @@ function showRepos(filter){
 	return display_html;
 }
 
+
+function imageFormatter(image_data, image_idx) {
+
+	// Format local images display
+
+	// Available example of Image data to display
+
+	/*	
+	Containers: -1,
+    Created: 1525418794,
+    Id: 'sha256:001d5142f8e6a1008c6077459f58e2d8414ec6cfef9dcf6d83f32e1b37f11f90',
+    Labels: null,
+    ParentId: 'sha256:8b932f53574a1c970ae4ace8efdfebcc57092805ee49ce49f02c379d624259c8',
+    RepoDigests: null,
+    RepoTags: 
+     [ 'image/name:tag1',
+       'image/name:tag2' ],
+    SharedSize: -1,
+    Size: 20949787157,
+    VirtualSize: 20949787157 }
+	*/
+	var template = '<div class = "local_image local_image-' + image_idx + '">';
+	template += '<div class="local_image_id">' + image_data["Id"] + '</div>';
+	template += '</div>';
+	return template;
+}
+
+async function showLocalImages(filter){
+	var images = await local.getImageList(filter); 
+	var display_html = '';
+	for (let [index, image] of images.entries()) {
+		display_html += imageFormatter(image, index);
+	}
+
+	return display_html;
+}
 
 async function containerFormatter(container_data, container_idx) {
 
@@ -176,6 +213,22 @@ async function containerFormatter(container_data, container_idx) {
 
 	template += '</div>';
 
+
+	// Button functionality
+	template += `
+		<script>
+		// Calling .off() so we don't re-register events every time we refresh
+		jQuery(document).off('click', '.container-${container_idx} .containerStartButton').on('click', '.container-${container_idx} .containerStartButton', function() {
+			local.startContainer('${container_data["Id"]}');
+		});
+
+		jQuery(document).off('click', '.container-${container_idx} .containerStopButton').on('click', '.container-${container_idx} .containerStopButton', function() {
+			local.stopContainer('${container_data["Id"]}');
+		});
+		</script>
+		`;
+	// create a container entity. does not query API
+
 	return await template;
 
 }
@@ -195,3 +248,4 @@ async function showContainers() {
 // Exports
 module.exports.showRepos = showRepos;
 module.exports.showContainers = showContainers;
+module.exports.showLocalImages = showLocalImages;

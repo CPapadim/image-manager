@@ -78,7 +78,7 @@ function getFilteredRepositoryList(filter) {
 function getImageList(repository) {
     
     try {
-        var result =  execSync("aws ecr describe-images --no-paginate --repository-name " + repository); 
+        var result = execSync("aws ecr describe-images --no-paginate --repository-name " + repository); 
     } 
     catch (error) {
         console.log(error.status);  // Might be 127 in your example.

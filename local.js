@@ -6,6 +6,7 @@ var utils = require('./utils.js');
 
 
 function getContainerList() {
+	// Get the list of containers on the local machine
 
 	try {
 		if (utils.isWindows()) {
@@ -33,7 +34,37 @@ function getContainerList() {
 }
 
 
+function getImageList(filter) {
+
+	try {
+		if (utils.isWindows()) {
+			var docker = new dockerode({socketPath: '//./pipe/docker_engine'});
+		} else {
+			var docker = new dockerode({socketPath: '/var/run/docker.sock'});
+		}
+	} catch (error) {
+		throw new Error('Cannot connect to the Docker daemon. Is the daemon running?');
+	}
+
+ 	return new Promise((resolve, reject)=> {
+		docker.listImages({filter: filter}, function (err, images) {
+			if(err) {
+				reject(err);
+			} else {
+				 var image_array = [];
+				images.forEach(function (imageInfo) {
+					image_array.push(imageInfo);
+			  	});
+			  	resolve(image_array);
+			}
+		});
+	});	
+}
+
+
 function getImageData(name) { 
+	// get data for a given image name
+
 	try {
 		if (utils.isWindows()) {
 			var docker = new dockerode({socketPath: '//./pipe/docker_engine'});
@@ -48,5 +79,42 @@ function getImageData(name) {
 }
 
 
+function startContainer(container_id) {
+	try {
+		if (utils.isWindows()) {
+			var docker = new dockerode({socketPath: '//./pipe/docker_engine'});
+		} else {
+			var docker = new dockerode({socketPath: '/var/run/docker.sock'});
+		}
+	} catch (error) {
+		throw new Error('Cannot connect to the Docker daemon. Is the daemon running?');
+	}
+	var container = docker.getContainer(container_id);
+	container.start(function (err, data) {
+		if(err) {alert(err);}
+	 	console.log(data);
+	});
+}
+
+function stopContainer(container_id) {
+	try {
+		if (utils.isWindows()) {
+			var docker = new dockerode({socketPath: '//./pipe/docker_engine'});
+		} else {
+			var docker = new dockerode({socketPath: '/var/run/docker.sock'});
+		}
+	} catch (error) {
+		throw new Error('Cannot connect to the Docker daemon. Is the daemon running?');
+	}
+	var container = docker.getContainer(container_id);
+	container.stop(function (err, data) {
+		if(err) {alert(err);}
+	 	console.log(data);
+	});
+}
+
 module.exports.getContainerList = getContainerList;
 module.exports.getImageData = getImageData;
+module.exports.getImageList = getImageList;
+module.exports.startContainer = startContainer;
+module.exports.stopContainer = stopContainer;
