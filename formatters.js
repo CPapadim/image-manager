@@ -1,6 +1,6 @@
 var registry = require('./registry.js');
 var local = require('./local.js');
-
+var fs = require('fs');
 
 function repoFormatter(repo_data, repo_idx) {
 
@@ -114,18 +114,87 @@ function imageFormatter(image_data, image_idx) {
     VirtualSize: 20949787157 }
 	*/
 	var template = '<div class = "local_image local_image-' + image_idx + '">';
+	if (image_data["RepoTags"]) {
+
+		var seen_tags = []
+		for (let [index, repo_tag] of image_data["RepoTags"].entries()) {
+			if (index == 0) {
+				var name = repo_tag.split(":")[0];
+				if (name.split("/")[0].includes("amazonaws")) {
+					name = name.split("/").slice(1).join("/");
+				}
+				template += '<div class="local_image_name">' + name + '</div>';
+			}
+
+			var tag = repo_tag.split(":")[1];
+			if (!seen_tags.includes(tag)) { 
+				seen_tags.push(tag);
+				template += '<div class="local_image_tag"><span class="local_image_tag-text">' + tag + '</span></div>';
+			}
+
+		}
+	}
+
+	template += '<div class="local_image_created">' + image_data["Created"] + '</div>';
 	template += '<div class="local_image_id">' + image_data["Id"] + '</div>';
+
+
+
+	var configs = fs.readdirSync('config/');
+
+	template += `
+				<div class="local_image_buttons">
+					<div class="local_image_createcontainer_button">Create Container</div>
+					`;
+	template += '<select class="local_image_containerconfig"><option value="none">Select Config</option>';
+	for (config of configs) {
+		template += '<option value="' + config + '">' + config + '</option>'
+	}
+	template += '</select>'
+	template += `	<div class="local_image_delete_button">DELETE</div>
+				</div>
+				`;
+
 	template += '</div>';
+
+	// Button functionality
+	if (image_data["RepoTags"]==null) {
+		var image_name = 'dangling';
+	} else {
+		var image_name = image_data["RepoTags"][0];
+	}
+	template += `
+		<script>
+		// Calling .off() so we don't re-register events every time we refresh
+		jQuery(document).off('click', '.local_image-${image_idx} .local_image_createcontainer_button').on('click', '.local_image-${image_idx} .local_image_createcontainer_button', function() {
+	
+			var config_file = jQuery('.local_image_containerconfig').val()
+
+			if ('${image_name}' == 'dangling' | '${image_name}' == '<none>:<none>') {
+				alert('Cannot create container with an untagged image.')
+			}
+			else {
+				local.createContainer('${image_name}', config_file);
+			}
+		});
+
+		</script>
+		`;
+
 	return template;
 }
 
 async function showLocalImages(filter){
 	var images = await local.getImageList(filter); 
 	var display_html = '';
+	image_num = 0;
 	for (let [index, image] of images.entries()) {
-		display_html += imageFormatter(image, index);
-	}
+		if (image["RepoTags"]!=null & image["RepoTags"]!='<none>:<none>') {
+			image_num += 1;
+			display_html += imageFormatter(image, image_num);
+		};
 
+	}
 	return display_html;
 }
 

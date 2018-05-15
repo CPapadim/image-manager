@@ -1,0 +1,87 @@
+.selectbox {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.selectbox__selected {
+  width: 100%;
+  height: 200px;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+.selectbox__values {
+  position: absolute;
+  top: 200px;
+  width:100%;
+  display: none;
+  text-align: center;
+}
+
+.selectbox__item {
+  padding: 5px;
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+  border-bottom:1px solid white;
+}
+
+.selectbox__item:hover {
+  background-color:#2ad666;
+
+}
+
+.repository {
+  background-color:#ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  margin-bottom:10px;
+}
+
+.repository:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.repository-name {
+  background-color:#1ccc59;
+  display:block;
+  width:100%;
+  color:#555;
+  padding-top:10px;
+  padding-bottom:10px;
+  margin-bottom:5px;
+  font-weight:bold;
+  font-size:16px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.image-tags {
+  display:inline-block;
+  text-align:left;
+  height:auto;
+  width:100%;
+  overflow:visible;
+  margin-bottom:10px;
+
+}
+
+.image-digest {
+  font-family: courier;
+  font-size: 11px;
+  color: #999999;
+  text-align:right;
+}
+
+.image-pushed-at {
+  font-family: courier;
+  font-size: 11px;
+  color: #999999;
+  text-align:right;
+  padding-bottom:5px;
+}
+.selectbox__values {
+  z-index:1000;
+  background-color:#1ccc59;
+}

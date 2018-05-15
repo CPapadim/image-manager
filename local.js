@@ -113,8 +113,29 @@ function stopContainer(container_id) {
 	});
 }
 
+function createContainer(image_name, config_file) {
+	console.log(image_name);
+	try {
+		if (utils.isWindows()) {
+			var docker = new dockerode({socketPath: '//./pipe/docker_engine'});
+		} else {
+			var docker = new dockerode({socketPath: '/var/run/docker.sock'});
+		}
+	} catch (error) {
+		throw new Error('Cannot connect to the Docker daemon. Is the daemon running?');
+	}
+
+	var options = { Binds: ['/var/run/docker.sock:/var/run/docker.sock', '/opt/app:/home/mysource'] }
+
+	docker.run(image_name, [], process.stdout, options, function(err, data, container) {
+  		//console.log(data.StatusCode);
+	});
+	//console.log(config_file);
+}
+
 module.exports.getContainerList = getContainerList;
 module.exports.getImageData = getImageData;
 module.exports.getImageList = getImageList;
 module.exports.startContainer = startContainer;
 module.exports.stopContainer = stopContainer;
+module.exports.createContainer = createContainer;
